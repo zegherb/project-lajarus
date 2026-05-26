@@ -1,0 +1,83 @@
+
+:root {
+  /* Base */
+  --font-size: 16px;
+
+  /* Bootstrap-like palette */
+  --background: #ffffff;
+  --foreground: #212529;
+
+  --primary: #0d6efd; /* bootstrap primary */
+  --primary-foreground: #ffffff;
+
+  --secondary: #6c757d;
+  --secondary-foreground: #ffffff;
+
+  --success: #198754;
+  --warning: #ffc107;
+  --danger: #dc3545;
+
+  --muted: #f8f9fa;
+  --muted-foreground: #6c757d;
+
+  --border: #dee2e6;
+  --input-background: #ffffff;
+
+  --card: #ffffff;
+  --card-foreground: #212529;
+
+  --radius: 0.5rem;
+
+  /* Sidebar (keep but simplified) */
+  --sidebar: #f8f9fa;
+  --sidebar-foreground: #212529;
+  --sidebar-primary: #0d6efd;
+  --sidebar-primary-foreground: #ffffff;
+
+  /* Charts (optional, simplified palette) */
+  --chart-1: #0d6efd;
+  --chart-2: #fd7e14;
+  --chart-3: #20c997;
+  --chart-4: #6f42c1;
+  --chart-5: #d63384;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #e9ecef;
+
+  --card: #1e1e1e;
+  --card-foreground: #e9ecef;
+
+  --primary: #0d6efd;
+  --secondary: #6c757d;
+
+  --muted: #2a2a2a;
+  --muted-foreground: #adb5bd;
+
+  --border: #2a2a2a;
+
+  --sidebar: #1e1e1e;
+  --sidebar-foreground: #e9ecef;
+}
+
+
+
+
+  html {
+    font-size: var(--font-size);
+  }
+
+h1 { font-size: 2rem; font-weight: 600; }
+h2 { font-size: 1.75rem; font-weight: 600; }
+h3 { font-size: 1.5rem; font-weight: 600; }
+h4 { font-size: 1.25rem; font-weight: 600; }
+
+label, button, input {
+  font-size: 1rem;
+}
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
