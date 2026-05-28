@@ -33,8 +33,51 @@ use yii\helpers\Html;
                 </ul>
             </div>
         </div>
-        <div class="border-top border-secondary mt-5 pt-4 text-center text-white-50">
-            <p class="mb-0">&copy; <?= date('Y') ?> LAJARUS. All rights reserved.</p>
+        
+        <div class="border-top border-secondary mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50">
+            <p class="mb-0 text-center text-md-start">&copy; <?= date('Y') ?> LAJARUS. All rights reserved.</p>
+            
+            <button id="theme-toggle" class="btn btn-outline-secondary btn-sm mt-3 mt-md-0 d-flex align-items-center gap-2 text-white-50 border-0" style="background: rgba(255,255,255,0.1);">
+                <span id="theme-icon">☀️</span>
+                <span id="theme-text">Mode Terang</span>
+            </button>
         </div>
     </div>
 </footer>
+
+<?php
+$this->registerJs(<<<JS
+    const toggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const themeText = document.getElementById('theme-text');
+    const htmlElement = document.documentElement; // Target tag <html>
+
+    // 1. Cek riwayat tema yang terakhir dipilih user dari LocalStorage (Default: light)
+    const currentTheme = localStorage.getItem('lajarus_theme') || 'light';
+    htmlElement.setAttribute('data-bs-theme', currentTheme);
+    updateButtonUI(currentTheme);
+
+    // 2. Aksi ketika tombol ditekan
+    toggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-bs-theme');
+        const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Ubah tema di HTML & Simpan ke LocalStorage agar tidak hilang saat di-refresh
+        htmlElement.setAttribute('data-bs-theme', targetTheme);
+        localStorage.setItem('lajarus_theme', targetTheme);
+        updateButtonUI(targetTheme);
+    });
+
+    // 3. Fungsi untuk menyesuaikan Ikon dan Teks tombol
+    function updateButtonUI(theme) {
+        if (theme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Mode Terang';
+        } else {
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Mode Gelap';
+        }
+    }
+JS
+);
+?>

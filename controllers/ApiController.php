@@ -95,17 +95,16 @@ class ApiController extends Controller
             $model->user_id = Yii::$app->user->identity->id;
             $model->imageFile = \yii\web\UploadedFile::getInstanceByName('foto');
             
-            // 1. VALIDASI PERTAMA (Mengecek file /tmp/ masih ada)
+            // VALIDASI PERTAMA (Mengecek file /tmp/ masih ada)
             if ($model->validate()) {
                 
-                // 2. JIKA ADA FOTO, PINDAHKAN
+                // JIKA ADA FOTO, PINDAHKAN
                 if ($model->imageFile) {
                     $model->upload(); 
                     $model->imageFile = null; 
                 }
 
-                // 3. SIMPAN KE DATABASE 
-                // (Gunakan false agar tidak terjadi double validation yang bikin error)
+                // SIMPAN KE DATABASE 
                 if ($model->save(false)) {
                     $username = Yii::$app->user->identity->name;
                     Yii::$app->db->createCommand()->insert('log_aktivitas', ['user_id' => Yii::$app->user->id, 'tipe' => 'user', 'deskripsi' => "{$username} membuat laporan '{$model->judul}'", 'created_at' => time()])->execute();
@@ -227,7 +226,7 @@ class ApiController extends Controller
             'message' => 'Email atau password yang Anda masukkan salah.'
         ];
     }
-    // 1. Endpoint Admin: Update Status & Prioritas Laporan
+    // Endpoint Admin: Update Status & Prioritas Laporan
     public function actionAdminUpdateReport($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -242,7 +241,7 @@ class ApiController extends Controller
             return ['status' => 'error', 'message' => 'Laporan tidak ditemukan.'];
         }
 
-        // --- SIMPAN DATA LAMA SEBELUM DIUBAH ---
+        // SIMPAN DATA LAMA SEBELUM DIUBAH 
         $oldStatus = $report->status;
         $oldPriority = $report->is_priority;
 
@@ -250,20 +249,20 @@ class ApiController extends Controller
         $report->status = $params['status'] ?? $report->status;
         $report->is_priority = isset($params['is_priority']) ? (int)$params['is_priority'] : $report->is_priority;
 
-        // --- MASUKKAN LOGIKA LOG KE DALAM BLOK SUCCESS ---
+        // MASUKKAN LOGIKA LOG KE DALAM BLOK SUCCESS
         if ($report->save(false)) {
             
             $adminName = Yii::$app->user->identity->name;
             $time = time();
 
-            // 1. Cek apakah statusnya benar-benar berubah
+            // Cek apakah statusnya benar-benar berubah
             if ($report->status !== $oldStatus) {
                 $statusBaru = strtolower($report->status); 
                 Yii::$app->db->createCommand()->insert('log_aktivitas', ['user_id' => $report->user_id, 'tipe' => 'admin', 'deskripsi' => "Admin {$adminName} memperbarui status laporan '{$report->judul}'", 'created_at' => $time])->execute();
                 Yii::$app->db->createCommand()->insert('log_aktivitas', ['user_id' => $report->user_id, 'tipe' => 'user', 'deskripsi' => "Admin memperbarui status laporan {$report->judul} menjadi {$statusBaru}", 'created_at' => $time])->execute();
             }
 
-            // 2. Cek apakah prioritasnya diaktifkan (berubah jadi 1)
+            // Cek apakah prioritasnya diaktifkan (berubah jadi 1)
             if ($report->is_priority != $oldPriority && $report->is_priority == 1) {
                 Yii::$app->db->createCommand()->insert('log_aktivitas', ['user_id' => $report->user_id, 'tipe' => 'admin', 'deskripsi' => "Admin {$adminName} menjadikan laporan '{$report->judul}' sebagai prioritas", 'created_at' => $time])->execute();
                 Yii::$app->db->createCommand()->insert('log_aktivitas', ['user_id' => $report->user_id, 'tipe' => 'user', 'deskripsi' => "Laporan {$report->judul} dijadikan prioritas oleh admin", 'created_at' => $time])->execute();
@@ -275,7 +274,7 @@ class ApiController extends Controller
         return ['status' => 'error', 'message' => 'Gagal memperbarui data.'];
     }
 
-    // 3. Endpoint Admin: Hapus Laporan Total (Permanen)
+    // Endpoint Admin: Hapus Laporan Total (Permanen)
     public function actionAdminDeleteReport($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -305,7 +304,7 @@ class ApiController extends Controller
 
         return ['status' => 'error', 'message' => 'Laporan tidak ditemukan.'];
     }
-    // FIX ENDPOINT: Kirim Komentar (Pastikan mengembalikan JSON murni tanpa bocor)
+    // ENDPOINT: Kirim Komentar 
     public function actionAddKomentar($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -404,7 +403,7 @@ class ApiController extends Controller
         Yii::$app->response->statusCode = 403;
         return ['status' => 'error', 'message' => 'Anda tidak memiliki akses untuk menghapus komentar ini.'];
     }
-    // 1. Endpoint Admin: Jadikan Pengguna Sebagai Admin
+    // Endpoint Admin: Jadikan Pengguna Sebagai Admin
     public function actionMakeAdmin($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -419,17 +418,18 @@ class ApiController extends Controller
             return ['status' => 'error', 'message' => 'Pengguna tidak ditemukan.'];
         }
 
-        // Proteksi: Cegah merubah akun sendiri
+        // Cegah mengubah role akun sendiri
         if ($user->id == Yii::$app->user->identity->id) {
             return ['status' => 'error', 'message' => 'Anda tidak bisa mengubah role Anda sendiri.'];
         }
 
         $user->role = 'admin';
         if ($user->save(false)) {
+            $adminName = Yii::$app->user->identity->name;
             Yii::$app->db->createCommand()->insert('log_aktivitas', [
                 'user_id' => $user->id, 
                 'tipe' => 'user', 
-                'deskripsi' => "Admin memperbarui role {$user->name} menjadi admin", 
+                'deskripsi' => "Admin {$adminName} memperbarui role {$user->name} menjadi admin", 
                 'created_at' => time()
             ])->execute();
             return ['status' => 'success', 'message' => 'Berhasil menambahkan ' . $user->name . ' sebagai Admin!'];
@@ -438,7 +438,7 @@ class ApiController extends Controller
         return ['status' => 'error', 'message' => 'Gagal memperbarui hak akses.'];
     }
 
-    // 2. Endpoint Admin: Hapus Akun Pengguna
+    // Endpoint Admin: Hapus Akun Pengguna
     public function actionDeleteUser($id)
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -453,14 +453,15 @@ class ApiController extends Controller
             return ['status' => 'error', 'message' => 'Pengguna tidak ditemukan.'];
         }
 
-        // Proteksi: Cegah bunuh diri (hapus akun sendiri) wkwk
+        // Cegah hapus akun sendiri
         if ($user->id == Yii::$app->user->identity->id) {
             return ['status' => 'error', 'message' => 'Anda tidak bisa menghapus akun Anda sendiri.'];
         }
 
         if ($user->delete()) {
+            $adminName = Yii::$app->user->identity->name;
             Yii::$app->db->createCommand()->insert('log_aktivitas', [
-                'user_id' => $userId, 
+                'user_id' => $user->id, 
                 'tipe' => 'admin', 
                 'deskripsi' => "Admin {$adminName} menghapus akun {$user->name}", 
                 'created_at' => time()

@@ -13,7 +13,8 @@ $this->registerJsFile('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', ['posit
 
 $css = <<<CSS
 @media (min-width: 992px) { .main-wrapper { padding-left: 256px; } }
-.bg-orange-custom { background-color: #f97316; }
+.bg-orange-custom { background-color: #f97316 !important; color: #fff !important; }
+.bg-orange-custom:hover { background-color: #ea580c !important; }
 .text-orange-custom { color: #f97316; }
 .chat-admin { background-color: rgba(249, 115, 22, 0.06); border-left: 4px solid #f97316; }
 .chat-user { background-color: #f8f9fa; border-left: 4px solid #6c757d; }

@@ -187,7 +187,6 @@ class AdminController extends Controller
         $search = Yii::$app->request->get('search');
         $query = \app\models\User::find()->orderBy(['id' => SORT_DESC]);
 
-        // Fitur Pencarian berdasarkan nama atau email
         if (!empty($search)) {
             $query->andWhere(['or', 
                 ['like', 'name', $search],
@@ -219,7 +218,6 @@ class AdminController extends Controller
 
         $admin = \app\models\User::findOne(Yii::$app->user->identity->id);
 
-        // Tambahkan statistik performa sistem untuk mempercantik profil admin
         $stats = [
             'total_user' => \app\models\User::find()->count(),
             'total_laporan' => \app\models\Laporan::find()->count(),
@@ -231,7 +229,7 @@ class AdminController extends Controller
             'stats' => $stats
         ]);
     }
-    // ACTION: Halaman Pengaturan Profil & Password Admin
+    // Halaman Pengaturan Profil & Password Admin
     public function actionSettings()
     {
         if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {
@@ -245,7 +243,7 @@ class AdminController extends Controller
         ]);
     }
 
-    // ACTION: Proses Update Data Profil Admin
+    // Proses Update Data Profil Admin
     public function actionUpdateProfile()
     {
         if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {
@@ -278,7 +276,7 @@ class AdminController extends Controller
         return $this->redirect(['admin/settings']);
     }
 
-    // ACTION: Proses Ubah Password Admin
+    // Proses Ubah Password Admin
     public function actionChangePassword()
     {
         if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {
@@ -293,19 +291,19 @@ class AdminController extends Controller
             $newPassword = $post['new_password'] ?? '';
             $confirmPassword = $post['confirm_password'] ?? '';
 
-            // 1. Validasi password lama
+            // Validasi password lama
             if (!$admin->validatePassword($oldPassword)) {
                 Yii::$app->session->setFlash('error', 'Password lama yang Anda masukkan salah.');
                 return $this->redirect(['admin/settings']);
             }
 
-            // 2. Validasi kesesuaian password baru
+            // Validasi kesesuaian password baru
             if ($newPassword !== $confirmPassword) {
                 Yii::$app->session->setFlash('error', 'Konfirmasi password baru tidak cocok.');
                 return $this->redirect(['admin/settings']);
             }
 
-            // 3. Enkripsi password baru
+            // Enkripsi password baru
             if (method_exists($admin, 'setPassword')) {
                 $admin->setPassword($newPassword);
             } else {
@@ -321,59 +319,7 @@ class AdminController extends Controller
 
         return $this->redirect(['admin/settings']);
     }
-    // ACTION: Halaman Riwayat Sistem (Menggunakan SOAP Web Service)
-    // public function actionRiwayatSistem()
-    // {
-    //     if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {
-    //         return $this->redirect(['admin/login']);
-    //     }
-
-    //     // Tembak URL SOAP Server kita sendiri
-    //     $wsdl = \yii\helpers\Url::to(['soap/index'], true); 
-    //     $stats = null;
-
-    //     try {
-    //         // Inisialisasi SOAP Client
-    //         // $client = new \SoapClient($wsdl, ['cache_wsdl' => WSDL_CACHE_NONE, 'connection_timeout' => 5]);
-    //         // Cukup panggil controllernya langsung (Internal Call), TIDAK perlu nembak URL via HTTP
-    //         $client = new \app\controllers\SoapController('soap', Yii::$app);
-    //         // Panggil fungsi getRiwayatSistem() dari SOAP
-    //         $jsonResponse = $client->getRiwayatSistem(); 
-            
-    //         // Ubah string JSON kembali menjadi array PHP
-    //         $stats = json_decode($jsonResponse, true); 
-
-    //     } catch (\Exception $e) {
-    //         Yii::$app->session->setFlash('error', 'Gagal terhubung ke SOAP Web Service: ' . $e->getMessage());
-    //     }
-
-    //     return $this->render('riwayat-sistem', [
-    //         'stats' => $stats
-    //     ]);
-    // }
-//     public function actionRiwayatSistem()
-// {
-//     if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {
-//         return $this->redirect(['admin/login']);
-//     }
-
-//     try {
-//         // Panggil fungsi langsung dari class SoapController 
-//         // Tanpa harus meng-instansiasi controller (yang bikin berat)
-//         $soapService = new \app\controllers\SoapController('soap', Yii::$app);
-        
-//         $jsonResponse = $soapService->getRiwayatSistem(); 
-//         $stats = json_decode($jsonResponse, true); 
-
-//     } catch (\Exception $e) {
-//         Yii::$app->session->setFlash('error', 'Gagal memuat data statistik: ' . $e->getMessage());
-//         $stats = null;
-//     }
-
-//     return $this->render('riwayat-sistem', [
-//         'stats' => $stats
-//     ]);
-// }
+   
     public function actionAktivitas()
     {
         if (Yii::$app->user->isGuest || Yii::$app->user->identity->role !== 'admin') {

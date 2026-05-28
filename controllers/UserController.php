@@ -28,18 +28,17 @@ class UserController extends Controller
     }
     public function beforeAction($action)
     {
-        // Jalankan fungsi bawaan Yii2 dulu
+       
         if (!parent::beforeAction($action)) {
             return false;
         }
 
-        // 1. Tendang kalau belum login
+        
         if (Yii::$app->user->isGuest) {
             $this->redirect(['site/login'])->send();
             return false;
         }
 
-        // 2. 🌟 BLOKIR ADMIN MASUK KE AREA USER 🌟
         if (Yii::$app->user->identity->role === 'admin') {
             Yii::$app->session->setFlash('error', 'Akses Ditolak! Admin tidak memiliki akses ke portal Pengguna.');
             $this->redirect(['admin/dashboard'])->send();
@@ -62,7 +61,7 @@ class UserController extends Controller
             ->limit(5)
             ->all();
 
-        // Hitung statistik (Opsional: dinamis dari database)
+        // Hitung statistik 
         $totalLaporan = Laporan::find()->where(['user_id' => $userId])->count();
         $dalamProses = Laporan::find()->where(['user_id' => $userId, 'status' => 'Proses'])->count();
         $selesai = Laporan::find()->where(['user_id' => $userId, 'status' => 'Selesai'])->count();
@@ -87,7 +86,7 @@ class UserController extends Controller
         $kategori = \app\models\KategoriKerusakan::find()->all();
         return $this->render('new-report', ['kategori' => $kategori]);
     }
-    // ACTION: Hapus Laporan
+    // Hapus Laporan
     public function actionDeleteReport($id)
     {
         $report = Laporan::findOne([
@@ -95,7 +94,6 @@ class UserController extends Controller
             'user_id' => Yii::$app->user->identity->id
         ]);
 
-        // Cek apakah laporan ada DAN statusnya masih "Menunggu" atau "Ditolak"
         if ($report && in_array($report->status, ['Menunggu', 'Ditolak'])) {
             // Hapus file foto dari folder uploads
             if ($report->foto) {
@@ -114,7 +112,7 @@ class UserController extends Controller
         return $this->redirect(['dashboard']);
     }
 
-    // ACTION: Halaman Update Laporan
+    // Halaman Update Laporan
     public function actionUpdateReport($id)
     {
         $model = Laporan::findOne([

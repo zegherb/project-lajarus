@@ -7,13 +7,13 @@ use yii\web\Controller;
 
 class SoapController extends Controller
 {
-    // Matikan proteksi CSRF karena SOAP menggunakan XML murni, bukan form web
+    
     public $enableCsrfValidation = false;
 
     public function actions()
     {
         return [
-            // Action ini otomatis meng-generate WSDL dan menangani request SOAP
+            
             'index' => [
                 'class' => 'mongosoft\soapserver\Action',
             ],
@@ -67,10 +67,9 @@ class SoapController extends Controller
             ->orderBy(['created_at' => SORT_DESC]);
 
         if ($role === 'admin') {
-            // Sesuai Request Admin Poin 5: Semua aktivitas user & admin keseluruhan kelihatan
-            // Jadi tidak perlu difilter where id-nya
+            
         } else {
-            // Jika user biasa, hanya tarik yang berkaitan dengan dirinya sendiri
+           
             $query->where(['user_id' => $user_id]);
         }
 

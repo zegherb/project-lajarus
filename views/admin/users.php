@@ -169,6 +169,7 @@ window.deleteUser = function(id) {
         type: 'POST',
         success: function(res) {
             if(res.status === 'success') {
+                alert(res.message);
                 $('#user-row-' + id).fadeOut(300, function() { $(this).remove(); });
             } else {
                 alert(res.message);

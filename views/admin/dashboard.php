@@ -97,7 +97,7 @@ $this->registerCss($css);
 
             <div class="row g-4 mb-4">
                 <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
+                    <a href="reports" class="text-decoration-none">
                         <div class="card bg-white border-0 shadow-sm rounded-4 p-4 hover-shadow-md d-flex flex-row align-items-center gap-4">
                             <div class="bg-warning rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 56px; height: 56px;">
                                 <i data-lucide="eye" class="text-white" style="width: 28px; height: 28px;"></i>
@@ -110,7 +110,7 @@ $this->registerCss($css);
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
+                    <a href="reports" class="text-decoration-none">
                         <div class="card bg-white border-0 shadow-sm rounded-4 p-4 hover-shadow-md d-flex flex-row align-items-center gap-4">
                             <div class="bg-info rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 56px; height: 56px;">
                                 <i data-lucide="check-square" class="text-white" style="width: 28px; height: 28px;"></i>
@@ -123,7 +123,7 @@ $this->registerCss($css);
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
+                    <a href="reports" class="text-decoration-none">
                         <div class="card bg-white border-0 shadow-sm rounded-4 p-4 hover-shadow-md d-flex flex-row align-items-center gap-4">
                             <div class="bg-danger rounded-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 56px; height: 56px;">
                                 <i data-lucide="alert-circle" class="text-white" style="width: 28px; height: 28px;"></i>
@@ -143,7 +143,7 @@ $this->registerCss($css);
                     <div class="card bg-white border-0 shadow-sm rounded-4 overflow-hidden h-100">
                         <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
                             <h5 class="fw-bold text-dark mb-0">Laporan Terbaru</h5>
-                            <a href="#" class="text-primary text-decoration-none small fw-medium">Lihat Semua</a>
+                            <a href="reports" class="text-primary text-decoration-none small fw-medium">Lihat Semua</a>
                         </div>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
