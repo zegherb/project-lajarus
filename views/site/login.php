@@ -54,7 +54,7 @@ $this->registerJs('lucide.createIcons();', View::POS_READY);
                         <input type="checkbox" name="rememberMe" class="form-check-input mt-0" id="rememberMe" value="1">
                         <label class="form-check-label small text-secondary" for="rememberMe">Ingat saya</label>
                     </div>
-                    <a href="#" class="small text-decoration-none">Lupa password?</a>
+                    <!-- <a href="#" class="small text-decoration-none">Lupa password?</a> -->
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm">

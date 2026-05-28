@@ -71,7 +71,7 @@ $this->registerCss($css);
                         <input class="form-check-input" type="checkbox" id="rememberMe">
                         <label class="form-check-label small text-secondary" for="rememberMe">Ingat saya</label>
                     </div>
-                    <a href="#" class="text-decoration-none small text-orange-custom fw-medium">Lupa password?</a>
+                    <!-- <a href="#" class="text-decoration-none small text-orange-custom fw-medium">Lupa password?</a> -->
                 </div>
 
                 <button type="submit" class="btn bg-orange-custom text-white w-100 py-3 rounded-3 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm">
