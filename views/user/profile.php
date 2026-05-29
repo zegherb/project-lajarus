@@ -130,7 +130,7 @@ $initials = strtoupper(substr($words[0], 0, 1) . (isset($words[1]) ? substr($wor
                             </div>
                             
                             <button type="submit" id="btn-save-password" class="btn btn-warning text-white px-4 py-2 fw-medium rounded-3">
-                                Ubah Password API
+                                Ubah Password
                             </button>
                         </form>
                     </div>
