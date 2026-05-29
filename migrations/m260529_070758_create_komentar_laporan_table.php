@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%komentar_laporan}}`.
  */
-class m260529_000000_create_komentar_laporan_table extends Migration
+class m260529_070758_create_komentar_laporan_table extends Migration
 {
     /**
      * {@inheritdoc}
