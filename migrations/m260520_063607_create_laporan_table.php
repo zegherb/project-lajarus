@@ -18,6 +18,7 @@ class m260520_063607_create_laporan_table extends Migration
             'status' => $this->string(20)->notNull()->defaultValue('Menunggu'), // Menunggu, Proses, Selesai
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'is_priority' => $this->boolean()->defaultValue(0),
         ]);
 
         // Foreign Keys
