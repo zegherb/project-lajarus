@@ -29,7 +29,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = ['css/site.css',
-        'js/color-mode.js',
+        // 'js/color-mode.js',
     ];
     public $jsOptions = [
         'position' => View::POS_HEAD,

@@ -1,83 +1,141 @@
 <?php
 use yii\helpers\Html;
 ?>
-<footer class="bg-dark text-white py-5 mt-auto">
+
+<footer class="bg-dark text-white py-3 mt-auto">
     <div class="container">
-        <div class="row gy-5">
+
+        <div class="row gy-3 align-items-start">
+
+            <!-- LOGO -->
             <div class="col-md-4">
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <div class="bg-primary rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px">
-                        <span class="text-white fs-5 fw-bold">L</span>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <div class="bg-primary rounded d-flex align-items-center justify-content-center"
+                         style="width: 34px; height: 34px">
+                        <span class="text-white fw-bold">L</span>
                     </div>
-                    <span class="fs-5 fw-bold">LAJARUS</span>
+
+                    <span class="fw-bold">LAJARUS</span>
                 </div>
-                <p class="text-white-50 mb-0">Sistem Pelaporan Jalan Rusak untuk Sulawesi Tenggara yang Lebih Baik</p>
+
+                <p class="text-white-50 small mb-0">
+                    Sistem Pelaporan Jalan Rusak Sulawesi Tenggara
+                </p>
             </div>
-            
+
+            <!-- LINK -->
             <div class="col-md-4">
-                <h5 class="fw-bold mb-4">Tautan</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2">
-                    <li><?= Html::a('Masuk', ['site/login'], ['class' => 'text-white-50 text-decoration-none']) ?></li>
-                    <li><?= Html::a('Daftar', ['site/signup'], ['class' => 'text-white-50 text-decoration-none']) ?></li>
-                    <li><?= Html::a('Tentang Kami', ['site/about'], ['class' => 'text-white-50 text-decoration-none']) ?></li>
-                    <li><?= Html::a('Kontak', ['site/contact'], ['class' => 'text-white-50 text-decoration-none']) ?></li>
+                <h6 class="fw-bold mb-2">Tautan</h6>
+
+                <ul class="list-unstyled mb-0 small">
+                    <li class="mb-1">
+                        <?= Html::a('Masuk', ['site/login'], [
+                            'class' => 'text-white-50 text-decoration-none'
+                        ]) ?>
+                    </li>
+
+                    <li class="mb-1">
+                        <?= Html::a('Daftar', ['site/signup'], [
+                            'class' => 'text-white-50 text-decoration-none'
+                        ]) ?>
+                    </li>
+
+                    <li class="mb-1">
+                        <?= Html::a('Tentang Kami', ['site/about'], [
+                            'class' => 'text-white-50 text-decoration-none'
+                        ]) ?>
+                    </li>
+
+                    <li>
+                        <?= Html::a('Kontak', ['site/contact'], [
+                            'class' => 'text-white-50 text-decoration-none'
+                        ]) ?>
+                    </li>
                 </ul>
             </div>
-            
+
+            <!-- KONTAK -->
             <div class="col-md-4">
-                <h5 class="fw-bold mb-4">Hubungi Kami</h5>
-                <ul class="list-unstyled text-white-50 d-flex flex-column gap-2">
+                <h6 class="fw-bold mb-2">Kontak</h6>
+
+                <ul class="list-unstyled text-white-50 small mb-0">
                     <li>Email: info@lajarus.id</li>
                     <li>Telp: (021) 1234-5678</li>
-                    <li>Alamat: Jl. Mangkerey, Kendari</li>
+                    <li>Kendari, Sulawesi Tenggara</li>
                 </ul>
             </div>
         </div>
-        
-        <div class="border-top border-secondary mt-5 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center text-white-50">
-            <p class="mb-0 text-center text-md-start">&copy; <?= date('Y') ?> LAJARUS. All rights reserved.</p>
-            
-            <button id="theme-toggle" class="btn btn-outline-secondary btn-sm mt-3 mt-md-0 d-flex align-items-center gap-2 text-white-50 border-0" style="background: rgba(255,255,255,0.1);">
+
+        <!-- BOTTOM -->
+        <div class="border-top border-secondary mt-3 pt-2 d-flex flex-column flex-md-row justify-content-between align-items-center">
+
+            <p class="small text-white-50 mb-2 mb-md-0">
+                &copy; <?= date('Y') ?> LAJARUS
+            </p>
+
+            <button id="theme-toggle"
+                    class="btn btn-sm text-white-50 border-0 d-flex align-items-center gap-1"
+                    style="background: rgba(255,255,255,0.08);">
+
                 <span id="theme-icon">☀️</span>
-                <span id="theme-text">Mode Terang</span>
+                <span id="theme-text" class="small">
+                    Mode Terang
+                </span>
+
             </button>
         </div>
+
     </div>
 </footer>
 
 <?php
 $this->registerJs(<<<JS
-    const toggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.getElementById('theme-text');
-    const htmlElement = document.documentElement; // Target tag <html>
+const toggleBtn = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const themeText = document.getElementById('theme-text');
+const htmlElement = document.documentElement;
 
-    // 1. Cek riwayat tema yang terakhir dipilih user dari LocalStorage (Default: light)
-    const currentTheme = localStorage.getItem('lajarus_theme') || 'light';
-    htmlElement.setAttribute('data-bs-theme', currentTheme);
-    updateButtonUI(currentTheme);
+const currentTheme = localStorage.getItem('lajarus_theme') || 'light';
 
-    // 2. Aksi ketika tombol ditekan
-    toggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-bs-theme');
-        const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        // Ubah tema di HTML & Simpan ke LocalStorage agar tidak hilang saat di-refresh
-        htmlElement.setAttribute('data-bs-theme', targetTheme);
-        localStorage.setItem('lajarus_theme', targetTheme);
-        updateButtonUI(targetTheme);
-    });
+htmlElement.setAttribute('data-bs-theme', currentTheme);
 
-    // 3. Fungsi untuk menyesuaikan Ikon dan Teks tombol
-    function updateButtonUI(theme) {
-        if (theme === 'dark') {
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Mode Terang';
-        } else {
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Mode Gelap';
-        }
+updateButtonUI(currentTheme);
+
+toggleBtn.addEventListener('click', () => {
+
+    const currentTheme =
+        htmlElement.getAttribute('data-bs-theme');
+
+    const targetTheme =
+        currentTheme === 'light'
+            ? 'dark'
+            : 'light';
+
+    htmlElement.setAttribute(
+        'data-bs-theme',
+        targetTheme
+    );
+
+    localStorage.setItem(
+        'lajarus_theme',
+        targetTheme
+    );
+
+    updateButtonUI(targetTheme);
+});
+
+function updateButtonUI(theme) {
+
+    if (theme === 'dark') {
+
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Mode Terang';
+
+    } else {
+
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Mode Gelap';
     }
-JS
-);
+}
+JS);
 ?>
